@@ -12,14 +12,14 @@
 - [ ] Profile + Company linkage (shipper company, carrier company)
 
 ## Phase 3 – Shipper: Loads
-- [ ] Load posting form (origin, destination, equipment, weight, dates, rate)
-- [ ] My Loads list (draft, posted, in-transit, delivered)
-- [ ] Load detail + view bids
+- [x] Load posting form (origin, destination, equipment, weight, dates, rate)
+- [x] My Loads list (draft, posted, in-transit, delivered)
+- [x] Load detail + view bids + accept/reject bid
 
 ## Phase 4 – Carrier: Load Board & Bidding
-- [ ] Load board (browse, filter by lane/equipment/date)
-- [ ] Place bid on load
-- [ ] My Bids list
+- [x] Load board (browse, link to load detail)
+- [x] Place bid on load
+- [x] My Bids list
 
 ## Phase 5 – Matching & Shipments
 - [ ] Accept bid → create Shipment
