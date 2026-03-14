@@ -17,7 +17,7 @@ export default async function LoadBoardPage() {
       .insert({ user_id: session.id, company_id: userRow?.company_id ?? null })
       .select("id")
       .single();
-    carrier = newCarrier ?? undefined;
+    carrier = newCarrier ?? null;
   }
 
   const { data: loads } = await supabase

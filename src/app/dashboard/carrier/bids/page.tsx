@@ -39,21 +39,19 @@ export default async function MyBidsPage() {
     .eq("carrier_id", carrier.id)
     .order("created_at", { ascending: false });
 
-  const bidsWithLoad = (bids ?? []).map((b) => ({
-    id: b.id,
-    amount: b.amount,
-    message: b.message,
-    status: b.status,
-    created_at: b.created_at,
-    load_id: b.load_id,
-    load: b.loads
-      ? {
-          id: (b.loads as { id: string }).id,
-          status: (b.loads as { status: string }).status,
-          offered_rate: (b.loads as { offered_rate: number | null }).offered_rate,
-        }
-      : null,
-  }));
+  type LoadRow = { id: string; status: string; offered_rate: number | null };
+  const bidsWithLoad = (bids ?? []).map((b) => {
+    const loadRow = Array.isArray(b.loads) ? (b.loads as LoadRow[])[0] : (b.loads as LoadRow | null);
+    return {
+      id: b.id,
+      amount: b.amount,
+      message: b.message,
+      status: b.status,
+      created_at: b.created_at,
+      load_id: b.load_id,
+      load: loadRow ? { id: loadRow.id, status: loadRow.status, offered_rate: loadRow.offered_rate } : null,
+    };
+  });
 
   return (
     <div>
