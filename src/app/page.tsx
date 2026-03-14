@@ -97,7 +97,13 @@ export default async function Home() {
           </ul>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
+          <a
+            href="/login"
+            className="rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          >
+            Sign in (Shipper / Carrier)
+          </a>
           <a
             href="https://nextjs.org/docs"
             target="_blank"

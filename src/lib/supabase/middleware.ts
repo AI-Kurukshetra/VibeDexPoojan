@@ -1,36 +1,23 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from "next/server";
+
+const COOKIE_NAME = "vibedex_session";
 
 export async function updateSession(request: NextRequest) {
-  const supabaseResponse = NextResponse.next({
-    request,
-  })
+  const path = request.nextUrl.pathname;
+  const hasCookie = request.cookies.get(COOKIE_NAME)?.value;
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return supabaseResponse
+  if (path.startsWith("/dashboard") && !hasCookie) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/login";
+    loginUrl.searchParams.set("redirect", path);
+    return NextResponse.redirect(loginUrl);
   }
 
-  const supabase = createServerClient(
-    supabaseUrl,
-    supabaseAnonKey,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
-        },
-      },
-    }
-  )
+  if (path === "/login" && hasCookie) {
+    const dashboardUrl = request.nextUrl.clone();
+    dashboardUrl.pathname = "/dashboard";
+    return NextResponse.redirect(dashboardUrl);
+  }
 
-  // Refresh session if expired (keeps user logged in)
-  await supabase.auth.getUser()
-
-  return supabaseResponse
+  return NextResponse.next({ request });
 }
